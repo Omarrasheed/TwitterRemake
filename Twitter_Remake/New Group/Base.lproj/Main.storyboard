@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5eP-54-nrL">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="9xj-K2-TSt">
+            <objects>
+                <viewController storyboardIdentifier="LoginViewController" id="5eP-54-nrL" customClass="LoginViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZPL-Hy-90g"/>
+                        <viewControllerLayoutGuide type="bottom" id="VyC-fs-xz3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UP0-WN-0r3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q02-20-LCg">
+                                <rect key="frame" x="32" y="303" width="311" height="60"/>
+                                <color key="backgroundColor" red="0.1137254902" green="0.55294117649999996" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="ejE-tI-WEy"/>
+                                </constraints>
+                                <state key="normal" title="Login with Twitter"/>
+                                <connections>
+                                    <action selector="didTapLogin:" destination="5eP-54-nrL" eventType="touchUpInside" id="KcG-KY-LCf"/>
+                                </connections>
+                            </button>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="TwitterLogoBlue" translatesAutoresizingMaskIntoConstraints="NO" id="ejs-mC-sZm">
+                                <rect key="frame" x="87.5" y="50" width="200" height="200"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Q02-20-LCg" firstAttribute="centerY" secondItem="UP0-WN-0r3" secondAttribute="centerY" id="FdZ-8S-mk5"/>
+                            <constraint firstItem="ejs-mC-sZm" firstAttribute="bottom" secondItem="UP0-WN-0r3" secondAttribute="centerY" multiplier="3:4" id="Oxp-xM-MJi"/>
+                            <constraint firstItem="Q02-20-LCg" firstAttribute="leading" secondItem="UP0-WN-0r3" secondAttribute="leading" constant="32" id="TVr-6H-zSo"/>
+                            <constraint firstAttribute="trailing" secondItem="Q02-20-LCg" secondAttribute="trailing" constant="32" id="dZM-Ey-JSb"/>
+                            <constraint firstItem="ejs-mC-sZm" firstAttribute="centerX" secondItem="UP0-WN-0r3" secondAttribute="centerX" id="klb-K0-YEY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Mbp-8C-Y1E"/>
+                    </view>
+                    <connections>
+                        <segue destination="uoH-QM-mAq" kind="presentation" identifier="loginSegue" id="OfD-YL-opo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="74y-8g-Avi" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="32.799999999999997" y="37.331334332833585"/>
+        </scene>
+        <!--Home Timeline-->
+        <scene sceneID="9IP-42-DZl">
+            <objects>
+                <viewController storyboardIdentifier="TimelineViewController" id="b4t-E0-pJO" customClass="TimelineViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wPh-WL-kDA"/>
+                        <viewControllerLayoutGuide type="bottom" id="n97-fL-HhJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7X7-4c-ylm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vzh-5L-bVu">
+                                <rect key="frame" x="149" y="323" width="76" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="AfR-wN-Olo"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Home Timeline" id="7Tk-Y9-omh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mmb-M7-eB7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1660" y="36.431784107946029"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="UGz-nN-TWH">
+            <objects>
+                <navigationController storyboardIdentifier="TweetsNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="uoH-QM-mAq" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="oQc-32-YYb">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="b4t-E0-pJO" kind="relationship" relationship="rootViewController" id="L09-Aa-8C8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d9b-um-dfI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="860" y="36.431784107946029"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="TwitterLogoBlue" width="200" height="200"/>
+    </resources>
+</document>
