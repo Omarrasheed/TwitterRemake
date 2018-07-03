@@ -11,6 +11,8 @@
 
 @interface LoginViewController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+
 @end
 
 @implementation LoginViewController
@@ -18,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.loginButton.layer.cornerRadius = 30;
 }
 
 - (void)didReceiveMemoryWarning {
