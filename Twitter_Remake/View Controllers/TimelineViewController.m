@@ -11,6 +11,8 @@
 #import "Tweet.h"
 #import "TweetCell.h"
 #import "ComposeViewController.h"
+#import "AppDelegate.h"
+#import "LoginViewController.h"
 
 @interface TimelineViewController () <UITableViewDelegate, UITableViewDataSource, ComposeViewControllerDelegate>
 
@@ -27,6 +29,8 @@
     // TableView info sources
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
+    self.homeFeedTableView.rowHeight = UITableViewAutomaticDimension;
+    self.homeFeedTableView.estimatedRowHeight = 140;
     
     // tweetsList that's used to populate cells
     self.tweetsList = [[NSMutableArray alloc] init];
@@ -45,7 +49,6 @@
     TweetCell *cell = [self.homeFeedTableView dequeueReusableCellWithIdentifier:@"tweetCell" forIndexPath:indexPath];
     cell.tweet = self.tweetsList[indexPath.row];
     [cell setTweet];
-    NSLog(@"%@", cell.favCountLabel.text);
     return cell;
 }
 
@@ -53,8 +56,22 @@
     return self.tweetsList.count;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.homeFeedTableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
 - (IBAction)replyButtonTapped:(id)sender {
     NSLog(@"reply Button tapped");
+}
+
+- (IBAction)logoutButtonPressed:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    appDelegate.window.rootViewController = loginViewController;
+    
+    [[APIManager shared] logout];
 }
 
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {

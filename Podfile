@@ -9,6 +9,7 @@ target 'Twitter_Remake' do
   pod 'AFNetworking'
   pod 'BDBOAuth1Manager'
   pod 'TTTAttributedLabel'
+  pod 'DateTools'
 end
 
 post_install do |installer|

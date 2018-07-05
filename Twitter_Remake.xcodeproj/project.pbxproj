@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		22990CB220EC0ECF00766D74 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22990CB120EC0ECF00766D74 /* ComposeViewController.m */; };
+		22990CB520EC6F9A00766D74 /* TweetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22990CB420EC6F9A00766D74 /* TweetDetailViewController.m */; };
 		22F4DBD820EAC1F40091D97B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F4DBD720EAC1F40091D97B /* AppDelegate.m */; };
 		22F4DBDE20EAC1F40091D97B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F4DBDC20EAC1F40091D97B /* Main.storyboard */; };
 		22F4DBE120EAC1F40091D97B /* Twitter_Remake.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F4DBDF20EAC1F40091D97B /* Twitter_Remake.xcdatamodeld */; };
@@ -28,6 +29,8 @@
 		05861D21CD0E6E9CCACEF59C /* libPods-Twitter_Remake.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Twitter_Remake.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		22990CB020EC0ECF00766D74 /* ComposeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
 		22990CB120EC0ECF00766D74 /* ComposeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
+		22990CB320EC6F9A00766D74 /* TweetDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TweetDetailViewController.h; sourceTree = "<group>"; };
+		22990CB420EC6F9A00766D74 /* TweetDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TweetDetailViewController.m; sourceTree = "<group>"; };
 		22F4DBD320EAC1F40091D97B /* Twitter_Remake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Twitter_Remake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F4DBD620EAC1F40091D97B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22F4DBD720EAC1F40091D97B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -121,6 +124,8 @@
 				22F4DBF320EAC2320091D97B /* TimelineViewController.m */,
 				22990CB020EC0ECF00766D74 /* ComposeViewController.h */,
 				22990CB120EC0ECF00766D74 /* ComposeViewController.m */,
+				22990CB320EC6F9A00766D74 /* TweetDetailViewController.h */,
+				22990CB420EC6F9A00766D74 /* TweetDetailViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -185,6 +190,7 @@
 				22F4DBCF20EAC1F40091D97B /* Sources */,
 				22F4DBD020EAC1F40091D97B /* Frameworks */,
 				22F4DBD120EAC1F40091D97B /* Resources */,
+				1A91374FD1425FD7F1915A05 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -241,6 +247,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1A91374FD1425FD7F1915A05 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Twitter_Remake/Pods-Twitter_Remake-resources.sh",
+				"${PODS_ROOT}/DateTools/DateTools/DateTools/DateTools.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DateTools.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Twitter_Remake/Pods-Twitter_Remake-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C6B8C153572DCB220013E318 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -271,6 +295,7 @@
 				22F4DBF120EAC22D0091D97B /* LoginViewController.m in Sources */,
 				22F4DC0820EAD9510091D97B /* TweetCell.m in Sources */,
 				22F4DBE120EAC1F40091D97B /* Twitter_Remake.xcdatamodeld in Sources */,
+				22990CB520EC6F9A00766D74 /* TweetDetailViewController.m in Sources */,
 				22F4DBF720EAC2440091D97B /* APIManager.m in Sources */,
 				22F4DBE920EAC1F50091D97B /* main.m in Sources */,
 				22F4DBFA20EAC2660091D97B /* BDBOAuth1SessionManager+SFAuthenticationSession.m in Sources */,

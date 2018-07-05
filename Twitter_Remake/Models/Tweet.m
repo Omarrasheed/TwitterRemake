@@ -25,9 +25,9 @@
         }
         self.idStr = dictionary[@"id_str"];
         self.text = dictionary[@"text"];
-        self.favoriteCount = [dictionary[@"favorite_count"] intValue];
+        self.favoriteCount = [dictionary[@"favorite_count"] floatValue];
         self.favorited = [dictionary[@"favorited"] boolValue];
-        self.retweetCount = [dictionary[@"retweet_count"] intValue];
+        self.retweetCount = [dictionary[@"retweet_count"] floatValue];
         self.retweeted = [dictionary[@"retweeted"] boolValue];
         
         // initialize user
@@ -40,12 +40,12 @@
         // Configure the input format to parse the date string
         formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
         // Convert String to Date
-        NSDate *date = [formatter dateFromString:createdAtOriginalString];
+        self.dateTime = [formatter dateFromString:createdAtOriginalString];
         // Configure output format
         formatter.dateStyle = NSDateFormatterShortStyle;
         formatter.timeStyle = NSDateFormatterNoStyle;
         // Convert Date to String
-        self.createdAtString = [formatter stringFromDate:date];
+        self.createdAtString = [formatter stringFromDate:self.dateTime];
     }
     return self;
 }

@@ -14,15 +14,16 @@
 @property (strong, nonatomic) Tweet *tweet;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *handleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tweetContentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *replyCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *retweetCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *favCountLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *replyIcon;
-@property (weak, nonatomic) IBOutlet UIImageView *retweetIcon;
-@property (weak, nonatomic) IBOutlet UIImageView *favIcon;
-@property (weak, nonatomic) IBOutlet UIImageView *shareIcon;
+@property (weak, nonatomic) IBOutlet UIButton *replyIcon;
+@property (weak, nonatomic) IBOutlet UIButton *retweetIcon;
+@property (weak, nonatomic) IBOutlet UIButton *favIcon;
+@property (weak, nonatomic) IBOutlet UIButton *shareIcon;
 
 -(void)setTweet;
 

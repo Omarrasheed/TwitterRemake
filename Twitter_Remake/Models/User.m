@@ -14,7 +14,8 @@
     self = [super init];
     if (self) {
         self.name = dictionary[@"name"];
-        self.screenName = dictionary[@"screen_name"];
+        NSString* handle = [NSString stringWithFormat:@"@%@",  dictionary[@"screen_name"]];
+        self.screenName = handle;
         self.profileURL =[NSURL URLWithString:dictionary[@"profile_image_url"]];
     }
     return self;
