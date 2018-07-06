@@ -10,8 +10,8 @@
 #import "Tweet.h"
 
 static NSString * const baseURLString = @"https://api.twitter.com";
-static NSString * const consumerKey =  @"VNDEifBmFCPcFVOEavL1aoun2";// Enter your consumer key here
-static NSString * const consumerSecret = @"ig3zPIU6725NtDxqKyIvqd39rTzQLbZxX1UPS1bHhdkvkmXHtZ";
+static NSString * const consumerKey =  @"";
+static NSString * const consumerSecret = @"";
 
 @interface APIManager()
 
@@ -36,9 +36,13 @@ static NSString * const consumerSecret = @"ig3zPIU6725NtDxqKyIvqd39rTzQLbZxX1UPS
     // Check for launch arguments override
     if ([[NSUserDefaults standardUserDefaults] stringForKey:@"consumer-key"]) {
         key = [[NSUserDefaults standardUserDefaults] stringForKey:@"consumer-key"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setValue:consumerKey forKey:@"consumer-key"];
     }
     if ([[NSUserDefaults standardUserDefaults] stringForKey:@"consumer-secret"]) {
         secret = [[NSUserDefaults standardUserDefaults] stringForKey:@"consumer-secret"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setValue:consumerSecret forKey:@"consumer-secret"];
     }
     
     self = [super initWithBaseURL:baseURL consumerKey:key consumerSecret:secret];
@@ -48,14 +52,17 @@ static NSString * const consumerSecret = @"ig3zPIU6725NtDxqKyIvqd39rTzQLbZxX1UPS
     return self;
 }
 
-- (void)getHomeTimelineWithCompletion:(void(^)(NSMutableArray *tweets, NSError *error))completion {
+- (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion {
     
     // Create a GET Request
-    [self GET:@"1.1/statuses/home_timeline.json" parameters:@{@"count":@200} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+    [self GET:@"1.1/statuses/home_timeline.json" parameters:@{@"count":@"200"} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
        
-       // Manually cache the tweets. If the request fails, restore from cache if possible.
-       NSMutableArray *tweets  = [Tweet tweetsWithArray:tweetDictionaries];
-       // [[NSUserDefaults standardUserDefaults] setValue:tweets forKey:@"hometimeline_tweets"];
+        // Manually cache the tweets. If the request fails, restore from cache if possible.
+        NSArray *tweets  = [Tweet tweetsWithArray:tweetDictionaries];
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweetDictionaries];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"hometimeline_tweets"];
        
        completion(tweets, nil);
        
@@ -71,6 +78,28 @@ static NSString * const consumerSecret = @"ig3zPIU6725NtDxqKyIvqd39rTzQLbZxX1UPS
        
        completion(tweetDictionaries, error);
    }];
+}
+
+- (void)getMoreTimelineTweets:(NSInteger)maxId completion:(void(^)(NSMutableArray *tweets, NSError *error))completion {
+    // Create a GET Request
+    [self GET:@"1.1/statuses/home_timeline.json" parameters:@{@"count":@"200", @"max_id":[NSString stringWithFormat:@"%ld", (maxId-1)]} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+        
+        NSMutableArray *tweets  = [Tweet tweetsWithArray:tweetDictionaries];
+        
+        completion(tweets, nil);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSMutableArray *tweetDictionaries = nil;
+        
+        // Fetch tweets from cache if possible
+        NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"hometimeline_tweets"];
+        if (data != nil) {
+            tweetDictionaries = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        }
+        
+        completion(tweetDictionaries, error);
+    }];
 }
 
 - (void)postStatusWithText:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion{
@@ -134,5 +163,46 @@ static NSString * const consumerSecret = @"ig3zPIU6725NtDxqKyIvqd39rTzQLbZxX1UPS
     }];
 }
 
+- (void)saveTweetArrayData:(Tweet *)tweetsList key:(NSString *)storageKey {
+    NSMutableArray * mutableDataArray = [[NSMutableArray alloc] init];
+    [mutableDataArray addObject:tweetsList];
+    
+    NSMutableArray *archiveArray = [NSMutableArray arrayWithCapacity:mutableDataArray.count];
+    for (Tweet *personObject in mutableDataArray) {
+        NSData *personEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:personObject];
+        [archiveArray addObject:personEncodedObject];
+    }
+    
+    NSUserDefaults *userData = [NSUserDefaults standardUserDefaults];
+    [userData setObject:archiveArray forKey:storageKey];
+}
+
+- (void)getPersonalUserInfo:(void(^)(NSArray *tweets, NSError *error))completion {
+    
+    // Create a GET Request
+    [self GET:@"1.1/account/verify_credentials.json" parameters:@{@"count":@"200"} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+        
+        // Manually cache the tweets. If the request fails, restore from cache if possible.
+        NSArray *tweets  = [Tweet tweetsWithArray:tweetDictionaries];
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweetDictionaries];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"hometimeline_tweets"];
+        
+        completion(tweets, nil);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSMutableArray *tweetDictionaries = nil;
+        
+        // Fetch tweets from cache if possible
+        NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"hometimeline_tweets"];
+        if (data != nil) {
+            tweetDictionaries = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        }
+        
+        completion(tweetDictionaries, error);
+    }];
+}
 
 @end

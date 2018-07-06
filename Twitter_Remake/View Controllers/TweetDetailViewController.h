@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Tweet.h"
 
 @interface TweetDetailViewController : UIViewController
+
+@property (strong, nonatomic) Tweet *tweet;
+
+- (void)setTweetDetailView;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "APIManager.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    if ([[APIManager shared] isAuthorized]) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UITabBarController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"homeTabBar"];
+        self.window.rootViewController = tabBarController;
+    }
+    
     return YES;
 }
 

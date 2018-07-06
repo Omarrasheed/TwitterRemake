@@ -10,6 +10,7 @@
 #import "UIImageview+AFNetworking.h"
 #import "APIManager.h"
 #import <QuartzCore/QuartzCore.h>
+#import <DateTools.h>
 
 @implementation TweetCell
 
@@ -88,15 +89,6 @@
 - (void)setDateTimeLabelText {
     self.dateTimeLabel.text = self.tweet.createdAtString;
     [self.dateTimeLabel sizeToFit];
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:self.tweet.dateTime];
-    NSInteger hour = [components hour];
-    NSInteger minute = [components minute];
-    NSDateFormatter* day = [[NSDateFormatter alloc] init];
-    [day setDateFormat: @"EEEE"];
-    NSLog(@"the day is: %@", [day stringFromDate:self.tweet.dateTime]);
-    NSLog(@"%ld:%ld", (long)hour, (long)minute);
 }
 - (void)setTweetContentLabelText {
     self.tweetContentLabel.text = self.tweet.text;
@@ -133,7 +125,7 @@
 - (void)setProfileImageViewImage {
     self.profileImage.image = nil;
     [self.profileImage setImageWithURL:self.tweet.user.profileURL];
-    self.profileImage.layer.cornerRadius = 32.0f;
+    self.profileImage.layer.cornerRadius = 24.0f;
     self.profileImage.clipsToBounds = YES;
 }
 - (void)setFavIconImage {

@@ -21,6 +21,7 @@
 @property (strong, nonatomic) User *user; // Contains name, screenname, etc. of tweet author
 @property (strong, nonatomic) NSString *createdAtString; // Display date
 @property (strong, nonatomic) NSDate *dateTime; // Datetime format
+@property (strong, nonatomic) NSString *dateTimeString; // Datetime in string version
 
 
 // For Retweets
