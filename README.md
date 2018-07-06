@@ -67,6 +67,7 @@ Describe any challenges encountered while building the app.
 List an 3rd party libraries, icons, graphics, or other assets you used in your app.
 
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) - networking task library
+- [DateTools](https://github.com/MatthewYork/DateTools) - date formatting tools
 
 ## License
 
