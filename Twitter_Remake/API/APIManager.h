@@ -9,6 +9,7 @@
 //#import "BDBOAuth1SessionManager.h"
 #import "BDBOAuth1SessionManager+SFAuthenticationSession.h"
 #import "Tweet.h"
+#import "User.h"
 
 @interface APIManager : BDBOAuth1SessionManager
 
@@ -17,6 +18,8 @@
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion;
 
 - (void)getMoreTimelineTweets:(NSInteger)maxId completion:(void(^)(NSMutableArray *tweets, NSError *error))completion;
+
+- (void)getMentionsTimelineTweets:(void(^)(NSArray *tweets, NSError *error))completion;
 
 - (void)postStatusWithText:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion;
 
@@ -27,5 +30,9 @@
 - (void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *tweet, NSError *error))completion;
 
 - (void)unretweet:(Tweet *)tweet completion:(void (^)(Tweet *tweet, NSError *error))completion;
+
+- (void)getPersonalUserInfo:(void(^)(User *user, NSError *error))completion;
+
+- (void)getSpecifiedUserInfo:(User *)user completion:(void(^)(NSMutableArray *tweets, NSError *error))completion;
 
 @end

@@ -51,6 +51,7 @@
         self.dateTimeString = [formatter stringFromDate:self.dateTime];
         
         NSDate *now = [NSDate date];
+        
         NSInteger daysApart = [now daysFrom:self.dateTime];
         NSInteger hoursApart = [now hoursFrom:self.dateTime];
         NSInteger minutesApart = [now minutesFrom:self.dateTime];

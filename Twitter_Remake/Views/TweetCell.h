@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Tweet.h"
+#import "User.h"
+
+@protocol TweetCellDelegate;
 
 @interface TweetCell : UITableViewCell
 
@@ -25,6 +28,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *favIcon;
 @property (weak, nonatomic) IBOutlet UIButton *shareIcon;
 
+@property (nonatomic, weak) id<TweetCellDelegate> delegate;
+
 -(void)setTweet;
 
 @end
+
+@protocol TweetCellDelegate
+- (void)tweetCell:(TweetCell *) tweetCell didTap: (User *)user;
+- (void)tweetCell:(TweetCell *) tweetCell didTapTweet: (Tweet *)tweet;
+@end
+

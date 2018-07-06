@@ -11,12 +11,16 @@
 #import "APIManager.h"
 #import <QuartzCore/QuartzCore.h>
 #import <DateTools.h>
+#import "TweetDetailViewController.h"
 
 @implementation TweetCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    UITapGestureRecognizer *profileTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapUserProfile:)];
+    [self.profileImage addGestureRecognizer:profileTapGestureRecognizer];
+    [self.profileImage setUserInteractionEnabled:YES];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -37,8 +41,6 @@
     [self setFavIconImage];
     [self setRetweetIconImage];
 }
-- (IBAction)replyButtonTapped:(id)sender {
-}
 - (IBAction)retweetButtonTapped:(id)sender {
     if (self.tweet.retweeted) {
         self.tweet.retweeted = NO;
@@ -51,6 +53,7 @@
         [self.retweetIcon setImage:[UIImage imageNamed:@"retweet-icon-green"] forState:UIControlStateNormal];
         [self retweetPostCall];
     }
+    [self refreshData];
 }
 - (IBAction)favButtonTapped:(id)sender {
     if (self.tweet.favorited) {
@@ -64,10 +67,13 @@
         [self.favIcon setImage:[UIImage imageNamed:@"favor-icon-red"] forState:UIControlStateNormal];
         [self favPostCall];
     }
-    
     [self refreshData];
-    
 }
+
+- (void) didTapUserProfile:(UITapGestureRecognizer *)sender{
+    [self.delegate tweetCell:self didTap:self.tweet.user];
+}
+
 - (IBAction)shareButtonTapped:(id)sender {
     NSLog(@"Share Button Tapped");
 }
@@ -183,6 +189,13 @@
             NSLog(@"Successfully unretweeted the following Tweet: %@", tweet.text);
         }
     }];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    TweetDetailViewController *tweetDetailView = [segue destinationViewController];
+    tweetDetailView.tweet = sender;
 }
 
 

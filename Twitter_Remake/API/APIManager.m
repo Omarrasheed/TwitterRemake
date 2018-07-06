@@ -8,6 +8,7 @@
 
 #import "APIManager.h"
 #import "Tweet.h"
+#import "User.h"
 
 static NSString * const baseURLString = @"https://api.twitter.com";
 static NSString * const consumerKey =  @"";
@@ -102,6 +103,34 @@ static NSString * const consumerSecret = @"";
     }];
 }
 
+- (void)getMentionsTimelineTweets:(void(^)(NSArray *tweets, NSError *error))completion {
+    
+    // Create a GET Request
+    [self GET:@"1.1/statuses/mentions_timeline.json" parameters:@{@"count":@"200"} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+        
+        // Manually cache the tweets. If the request fails, restore from cache if possible.
+        NSArray *tweets  = [Tweet tweetsWithArray:tweetDictionaries];
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweetDictionaries];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"mentions_tweets"];
+        
+        completion(tweets, nil);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSMutableArray *tweetDictionaries = nil;
+        
+        // Fetch tweets from cache if possible
+        NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"mentions_tweets"];
+        if (data != nil) {
+            tweetDictionaries = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        }
+        
+        completion(tweetDictionaries, error);
+    }];
+}
+
 - (void)postStatusWithText:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion{
     
     NSString *urlString = @"1.1/statuses/update.json";
@@ -177,17 +206,38 @@ static NSString * const consumerSecret = @"";
     [userData setObject:archiveArray forKey:storageKey];
 }
 
-- (void)getPersonalUserInfo:(void(^)(NSArray *tweets, NSError *error))completion {
+- (void)getPersonalUserInfo:(void(^)(User *user, NSError *error))completion {
     
     // Create a GET Request
-    [self GET:@"1.1/account/verify_credentials.json" parameters:@{@"count":@"200"} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+    [self GET:@"1.1/account/verify_credentials.json" parameters:@{} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable userDictionary) {
         
-        // Manually cache the tweets. If the request fails, restore from cache if possible.
-        NSArray *tweets  = [Tweet tweetsWithArray:tweetDictionaries];
+        User *selfUser  = [[User alloc] initWithDictionary:userDictionary];
         
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweetDictionaries];
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userDictionary];
         
-        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"hometimeline_tweets"];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"user_information"];
+        
+        completion(selfUser, nil);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSDictionary *userInformation = nil;
+        
+        // Fetch tweets from cache if possible
+        NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"user_information"];
+        if (data != nil) {
+            userInformation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        }
+        
+        completion(nil, error);
+    }];
+}
+
+- (void)getSpecifiedUserInfo:(User *)user completion:(void(^)(NSMutableArray *tweets, NSError *error))completion {
+    // Create a GET Request
+    [self GET:@"1.1/statuses/user_timeline.json" parameters:@{@"count":@"200", @"screen_name":user.screenName} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+        
+        NSMutableArray *tweets  = [Tweet tweetsWithArray:tweetDictionaries];
         
         completion(tweets, nil);
         
@@ -204,5 +254,4 @@ static NSString * const consumerSecret = @"";
         completion(tweetDictionaries, error);
     }];
 }
-
 @end

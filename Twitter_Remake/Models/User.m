@@ -16,7 +16,22 @@
         self.name = dictionary[@"name"];
         NSString* handle = [NSString stringWithFormat:@"@%@",  dictionary[@"screen_name"]];
         self.screenName = handle;
-        self.profileURL =[NSURL URLWithString:dictionary[@"profile_image_url"]];
+        
+        if (![dictionary[@"profile_image_url"] isKindOfClass:[NSNull class]]) {
+            self.profileURL =[NSURL URLWithString:dictionary[@"profile_image_url"]];
+        } else {
+            self.profileURL = nil;
+        }
+        
+        if (![dictionary[@"profile_background_image_url"] isKindOfClass:[NSNull class]]) {
+            self.profileBackgroundURL = [NSURL URLWithString:dictionary[@"profile_background_image_url"]];
+        } else {
+            self.profileBackgroundURL = nil;
+        }
+        self.followerCount = [NSString stringWithFormat:@"%@", dictionary[@"followers_count"]];
+        self.followingCount = [NSString stringWithFormat: @"%@", dictionary[@"friends_count"]];
+        self.tweetsCount = [NSString stringWithFormat: @"%@", dictionary[@"statuses_count"]];
+        
     }
     return self;
 }

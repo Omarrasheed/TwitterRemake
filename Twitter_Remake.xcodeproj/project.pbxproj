@@ -10,6 +10,7 @@
 		22990CB220EC0ECF00766D74 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22990CB120EC0ECF00766D74 /* ComposeViewController.m */; };
 		22990CB520EC6F9A00766D74 /* TweetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22990CB420EC6F9A00766D74 /* TweetDetailViewController.m */; };
 		22990CB820EED05900766D74 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22990CB720EED05900766D74 /* ProfileViewController.m */; };
+		22990CBB20F013A100766D74 /* MentionsTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22990CBA20F013A100766D74 /* MentionsTimelineViewController.m */; };
 		22F4DBD820EAC1F40091D97B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F4DBD720EAC1F40091D97B /* AppDelegate.m */; };
 		22F4DBDE20EAC1F40091D97B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F4DBDC20EAC1F40091D97B /* Main.storyboard */; };
 		22F4DBE120EAC1F40091D97B /* Twitter_Remake.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F4DBDF20EAC1F40091D97B /* Twitter_Remake.xcdatamodeld */; };
@@ -34,6 +35,8 @@
 		22990CB420EC6F9A00766D74 /* TweetDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TweetDetailViewController.m; sourceTree = "<group>"; };
 		22990CB620EED05900766D74 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		22990CB720EED05900766D74 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		22990CB920F013A100766D74 /* MentionsTimelineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MentionsTimelineViewController.h; sourceTree = "<group>"; };
+		22990CBA20F013A100766D74 /* MentionsTimelineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MentionsTimelineViewController.m; sourceTree = "<group>"; };
 		22F4DBD320EAC1F40091D97B /* Twitter_Remake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Twitter_Remake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F4DBD620EAC1F40091D97B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22F4DBD720EAC1F40091D97B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -131,6 +134,8 @@
 				22990CB420EC6F9A00766D74 /* TweetDetailViewController.m */,
 				22990CB620EED05900766D74 /* ProfileViewController.h */,
 				22990CB720EED05900766D74 /* ProfileViewController.m */,
+				22990CB920F013A100766D74 /* MentionsTimelineViewController.h */,
+				22990CBA20F013A100766D74 /* MentionsTimelineViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -303,6 +308,7 @@
 				22990CB520EC6F9A00766D74 /* TweetDetailViewController.m in Sources */,
 				22F4DBF720EAC2440091D97B /* APIManager.m in Sources */,
 				22F4DBE920EAC1F50091D97B /* main.m in Sources */,
+				22990CBB20F013A100766D74 /* MentionsTimelineViewController.m in Sources */,
 				22F4DBFA20EAC2660091D97B /* BDBOAuth1SessionManager+SFAuthenticationSession.m in Sources */,
 				22990CB820EED05900766D74 /* ProfileViewController.m in Sources */,
 				22990CB220EC0ECF00766D74 /* ComposeViewController.m in Sources */,

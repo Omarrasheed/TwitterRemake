@@ -12,5 +12,6 @@
 @interface ProfileViewController : UIViewController
 
 @property (strong, nonatomic) User *user;
+@property (strong, nonatomic) NSArray *usersTweets;
 
 @end

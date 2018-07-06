@@ -8,11 +8,13 @@
 
 #import "ComposeViewController.h"
 #import "APIManager.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ComposeViewController () <UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *characterCountLabel;
 @property (weak, nonatomic) IBOutlet UITextView *createTweetTextView;
+@property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 
 
 @end
@@ -26,7 +28,19 @@
     self.createTweetTextView.delegate = self;
     self.createTweetTextView.layer.borderColor = [[UIColor blackColor] CGColor];
     self.createTweetTextView.layer.borderWidth = 1;
+    self.createTweetTextView.layer.cornerRadius = 12;
     
+    [self setupProfilePicture];
+    
+}
+
+- (void)setupProfilePicture {
+    if (self.user.profileURL != nil) {
+        [self.profileImage setImageWithURL:self.user.profileURL];
+        [self.profileImage sizeToFit];
+        self.profileImage.layer.cornerRadius = 24;
+        self.profileImage.clipsToBounds = YES;
+    }
 }
 
 - (void)textViewDidChange:(UITextView *)textView {

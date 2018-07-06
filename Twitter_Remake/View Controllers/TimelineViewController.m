@@ -14,8 +14,9 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "TweetDetailViewController.h"
+#import "ProfileViewController.h"
 
-@interface TimelineViewController () <UITableViewDelegate, UITableViewDataSource, ComposeViewControllerDelegate, UIScrollViewDelegate>
+@interface TimelineViewController () <UITableViewDelegate, UITableViewDataSource, ComposeViewControllerDelegate, UIScrollViewDelegate, TweetCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *homeFeedTableView;
 @property (strong, nonatomic) NSMutableArray *tweetsList;
@@ -29,6 +30,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Load user info right away
+    [self loadUserInfo];
     
     // TableView info sources
     self.homeFeedTableView.delegate = self;
@@ -52,6 +56,7 @@
     
     TweetCell *cell = [self.homeFeedTableView dequeueReusableCellWithIdentifier:@"tweetCell" forIndexPath:indexPath];
     cell.tweet = self.tweetsList[indexPath.row];
+    cell.delegate = self;
     [cell setTweet];
     return cell;
 }
@@ -77,10 +82,7 @@
             [self getMoreTweets];
         }
     }
-}
-
-- (IBAction)replyButtonTapped:(id)sender {
-    
+    self.isMoreDataLoading = false;
 }
 
 
@@ -98,7 +100,7 @@
     [self getTimeline];
 }
 
--(void) getTimeline{
+- (void) getTimeline{
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             self.tweetsList = [NSMutableArray arrayWithArray:tweets];
@@ -113,6 +115,8 @@
 }
 
 - (void) getMoreTweets {
+    Tweet *tweet = self.tweetsList[self.tweetsList.count - 1];
+    self.maxId = [tweet.idStr integerValue];
     [[APIManager shared] getMoreTimelineTweets:self.maxId completion:^(NSMutableArray *tweets, NSError *error) {
         if (tweets) {
             for (Tweet* eachTweet in tweets) {
@@ -143,29 +147,58 @@
                 self.maxId = [each.idStr integerValue];
             }
         }
-        NSLog(@"%ld", self.maxId);
     }
+}
+
+- (void)loadUserInfo {
+    [[APIManager shared] getPersonalUserInfo:^(User *user, NSError *error) {
+        if (user) {
+            self.selfUser = user;
+        } else {
+            self.selfUser = nil;
+        }
+    }];
 }
 
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
      if ([sender isKindOfClass:[TweetCell class]]) {
          TweetCell *tappedCell = sender;
-         NSLog(@"hit the segue func");
          TweetDetailViewController *tweetDetailViewController = [segue destinationViewController];
          tweetDetailViewController.tweet = tappedCell.tweet;
-     } else if ([sender isKindOfClass:[UIButton class]]){
-         UIButton *button = (UIButton *)sender;
-         if ([button.imageView.image isEqual:[UIImage imageNamed:@"edit-icon"]]) {
+     } else if ([sender isKindOfClass:[UIBarButtonItem class]]){
+         UIBarButtonItem *button = (UIBarButtonItem *)sender;
+         if ([button.image isEqual:[UIImage imageNamed:@"edit-icon"]]) {
              UINavigationController *navigationController = [segue destinationViewController];
              ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
              composeController.delegate = self;
+             composeController.user = self.selfUser;
+         } else {
+             ProfileViewController *profileViewController = [segue destinationViewController];
+             profileViewController.user = self.selfUser;
          }
-         
+     } else if ([segue.destinationViewController  isKindOfClass:[ProfileViewController class]]) {
+         ProfileViewController *profileViewController = [segue destinationViewController];
+         if ([sender isKindOfClass:[User class]]){
+             profileViewController.user = sender;
+         } else if ([sender isKindOfClass:[UIBarButtonItem class]]) {
+             if (self.selfUser != nil) {
+                profileViewController.user = self.selfUser;
+             }
+         }
      }
  }
+
+- (void)tweetCell:(TweetCell *)tweetCell didTap:(User *)user {
+    [self performSegueWithIdentifier:@"profileSegue" sender:user];
+}
+- (void)tweetCell:(TweetCell *)tweetCell didTapTweet:(Tweet *)tweet{
+    [self performSegueWithIdentifier:@"replySegue" sender:tweet];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 @end

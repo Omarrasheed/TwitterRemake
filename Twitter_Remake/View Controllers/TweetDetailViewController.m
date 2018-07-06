@@ -8,6 +8,8 @@
 
 #import "TweetDetailViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "ProfileViewController.h"
+#import "APIManager.h"
 
 @interface TweetDetailViewController ()
 
@@ -33,6 +35,44 @@
     // Do any additional setup after loading the view.
     
     [self setTweetDetailView];
+    
+//    UITapGestureRecognizer *profileTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapUserProfile:)];
+//    [self.profileImageView addGestureRecognizer:profileTapGestureRecognizer];
+//    [self.profileImageView setUserInteractionEnabled:YES];
+}
+- (IBAction)likeButtonPressed:(id)sender {
+    if (self.tweet.favorited) {
+        self.tweet.favorited = NO;
+        self.tweet.favoriteCount -= 1;
+        [self.likeButton setImage:[UIImage imageNamed:@"favor-icon"] forState:UIControlStateNormal];
+        [self unFavPostCall];
+    } else {
+        self.tweet.favorited = YES;
+        self.tweet.favoriteCount += 1;
+        [self.likeButton setImage:[UIImage imageNamed:@"favor-icon-red"] forState:UIControlStateNormal];
+        [self favPostCall];
+    }
+    [self setTweetDetailView];
+}
+- (IBAction)retweetButtonPressed:(id)sender {
+    if (self.tweet.retweeted) {
+        self.tweet.retweeted = NO;
+        self.tweet.retweetCount -= 1;
+        [self.retweetButton setImage:[UIImage imageNamed:@"retweet-icon"] forState:UIControlStateNormal];
+        [self unretweetPostCall];
+    } else {
+        self.tweet.retweeted = YES;
+        self.tweet.retweetCount += 1;
+        [self.retweetButton setImage:[UIImage imageNamed:@"retweet-icon-green"] forState:UIControlStateNormal];
+        [self retweetPostCall];
+    }
+    [self setTweetDetailView];
+}
+- (IBAction)replyButtonPressed:(id)sender {
+}
+
+- (void) didTapUserProfile:(UITapGestureRecognizer *)sender{
+    [self performSegueWithIdentifier:@"profileSegue" sender:self.tweet.user];
 }
 
 - (void)setTweetDetailView {
@@ -43,7 +83,6 @@
     [self setRetweetsLabelText];
     [self setLikeLabelText];
     [self setProfileImage];
-    NSLog(@"done");
 }
 
 - (void)setProfileImage {
@@ -80,19 +119,60 @@
     [self.likesLabel sizeToFit];
 }
 
+- (void)favPostCall {
+    [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
+        if(error){
+            NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+        }
+        else{
+            NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+        }
+    }];
+}
+- (void)unFavPostCall {
+    [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
+        if(error){
+            NSLog(@"Error unfavoriting tweet: %@", error.localizedDescription);
+        }
+        else{
+            NSLog(@"Successfully unfavorited the following Tweet: %@", tweet.text);
+        }
+    }];
+}
+
+- (void)retweetPostCall {
+    [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+        if(error){
+            NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
+        }
+        else{
+            NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
+        }
+    }];
+}
+
+- (void)unretweetPostCall {
+    [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+        if(error){
+            NSLog(@"Error unretweeting tweet: %@", error.localizedDescription);
+        }
+        else{
+            NSLog(@"Successfully unretweeted the following Tweet: %@", tweet.text);
+        }
+    }];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    ProfileViewController *profileViewController = [segue destinationViewController];
+    profileViewController.user = self.tweet.user;
 }
-*/
 
 @end
